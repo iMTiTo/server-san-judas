@@ -43,7 +43,10 @@ export const login = async (req, res) =>{
         const user = await User.findOne({
             $or: [{ email: lowerEmail}, { username: lowerUsername}],
         });
+
     if (!user) {
+        return res.status(401).json({ message: "Credenciales incorrectas"})
+    } {
         return res.status(200).json({
             message: "Inicio de sesión exitoso",
             userDetails: {
