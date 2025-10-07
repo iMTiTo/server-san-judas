@@ -7,7 +7,7 @@ const userSchema = new Schema({
         maxLength: [25, 'El nombre no puede tener más de 25 caracteres'],
         trim: true
     },
-    surename: {
+    surname: {
         type: String,
         required: [true, 'El apellido es obligatorio'],
         maxLength: [25, 'El apellido no puede tener más de 25 caracteres'],
@@ -19,8 +19,6 @@ const userSchema = new Schema({
         unique: true,
         trim: true
     },
-
-    
     email: {
         type: String,
         required: [true, 'El email esobligatorio'],
@@ -29,7 +27,7 @@ const userSchema = new Schema({
         lowercase: true,
         match: [/^\S+@\S+\.\S+$/, 'El email no es válido']
     },
-    pasword: {
+    password: {
         type: String,
         required: [true, 'La contraseña es obligatoria'],
         minLengt: [true, 'La contraseña debe contener mínimo 8 caracteres']
@@ -63,7 +61,7 @@ const userSchema = new Schema({
 })
 
 userSchema.methods.toJOSN = function() {
-    const { pasword, id, ...user} = this.toObjet();
+    const { password, id, ...user} = this.toObjet();
     return { uid: id, ...user}
 }
 
