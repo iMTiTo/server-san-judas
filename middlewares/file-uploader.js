@@ -11,7 +11,7 @@ const createMulterConfing = (destinationPath, subFolder) => {
     return multer({
         storage: multer.diskStorage({
             destination: join(CURRENT_DIR, destinationPath),
-            filename: (req, file, cb) => {
+            fileName: (req, file, cb) => {
                 const fileExtencion = extname(file.originalname)
                 const filename = file.originalname.split(fileExtencion)[0]
                 const shortUuid = uuidv4().substring(0, 8)
