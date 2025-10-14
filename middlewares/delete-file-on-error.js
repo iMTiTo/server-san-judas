@@ -1,4 +1,4 @@
-import fs from 'fs/profiles'
+import fs from 'fs/promises'
 
 export const deleteFileOnError = async (err, req, res, next) => {
     if(!err) return next()

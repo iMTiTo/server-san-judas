@@ -20,7 +20,7 @@ export const registerValidator = [
 ]
 
 export const loginValidator = [
-    check("email", "No es un email válido").optional.isEmail(),
+    check("email", "No es un email válido").optional().isEmail(),
     check("password", "La contraseña es obligatoria").not().isEmpty,
     check("password", "La contraseña debe tener 8 caracteres").isLength({
         min: 8
