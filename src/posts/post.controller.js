@@ -7,7 +7,7 @@ export const createPost = async (req, res) => {
         const {title, content} = req.body
         const authorId = req.uid
 
-        const post = new Post.create({
+        const post = await Post.create({
             title,
             content,
             author: authorId

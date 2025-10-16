@@ -1,7 +1,7 @@
 import { response } from "express";
 import { validationResult } from "express-validator";
 
-export const validarCampos = (err, res, next) => {
+export const validarCampos = (req, res, next) => {
     const errors = validationResult(req)
     if(!errors.isEmpty()){
         const error = new Error('Error de validación')
