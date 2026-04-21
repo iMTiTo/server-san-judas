@@ -1,26 +1,30 @@
 import { Schema, model } from "mongoose";
 
 const postSchema = new Schema({
-    title:{
+    title: {
         type: String,
-        require: true,
+        required: true,
         trim: true
     },
-    content:{
+    content: {
         type: String,
-        require: true,
+        required: true,
         trim: true
     },
-    author:{
+    image: {
+        type: String,
+        required: true
+    },
+    author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        require: true,
+        required: true,
     },
-    comments:[{
+    comments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment'
     }]
-},{
+}, {
     timestamps: true,
     versionKey: false
 })

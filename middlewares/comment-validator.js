@@ -1,7 +1,7 @@
 import { check } from "express-validator";
 import { validarCampos } from "./validate-values.js";
-import { validateJWT } from "./jwt-verify";
-import { existePost, existeComment, isCommentOwner } from '../helpers/db-validators.js';
+import { validateJWT } from "./jwt-verify.js";
+import { existePost } from '../helpers/db-validators.js';
 
 export const createCommentValidator = [
     validateJWT,

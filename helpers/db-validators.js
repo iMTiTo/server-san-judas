@@ -1,4 +1,5 @@
 import User from '../src/users/user.model.js'
+import Post from '../src/posts/post.model.js'
 
 export const emailExists = async (email = '') => {
     const existe = await User.findOne({email})
@@ -8,9 +9,9 @@ export const emailExists = async (email = '') => {
     }
 }
 
-export const existePost = async (_id = '') => {
-    const existe = await Post.findOne({_id})
-
+export const existePost = async (id = '') => {
+    console.log(id, 'validator')
+    const existe = await Post.findById(id)
     if(!existe){
         throw new Error('La publicación ya no existe')
     }

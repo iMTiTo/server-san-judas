@@ -1,4 +1,3 @@
-import { response } from "express";
 import { validationResult } from "express-validator";
 
 export const validarCampos = (req, res, next) => {
@@ -7,7 +6,7 @@ export const validarCampos = (req, res, next) => {
         const error = new Error('Error de validación')
         error.status = 400
         error.errors = errors.array()
-        return res.status(400).json(error)
+        return next(error)
     }
     next()
 }

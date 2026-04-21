@@ -15,13 +15,13 @@ const userSchema = new Schema({
     },
     username: {
         type: String,
-        required: [true, 'El username es obligartorio'],
+        required: [true, 'El username es obligatorio'],
         unique: true,
         trim: true
     },
     email: {
         type: String,
-        required: [true, 'El email esobligatorio'],
+        required: [true, 'El email es obligatorio'],
         unique: true,
         trim: true,
         lowercase: true,
@@ -30,7 +30,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: [true, 'La contraseña es obligatoria'],
-        minLengt: [true, 'La contraseña debe contener mínimo 8 caracteres']
+        minLength: [8, 'La contraseña debe contener mínimo 8 caracteres']
     },
     profilePicture: {
         type: String,
@@ -38,31 +38,31 @@ const userSchema = new Schema({
     },
     phone: {
         type: String,
-        minLengt: [8, 'El tenlefono debe tener al menos 8 caracteres'],
+        minLength: [8, 'El teléfono debe tener al menos 8 caracteres'],
         maxLength: [8, 'El teléfono no debe tener más de 8 caracteres'],
         trim: true
     },
     rol: {
         type: String,
-        enum: ['ADMOIN_ ROLE', 'USER_ROLE'],
+        enum: ['ADMIN_ROLE', 'USER_ROLE'],
         default: 'USER_ROLE'
     },
     status: {
         type: Boolean,
         default: true
     },
-    posts:[{
+    posts: [{
         type: Schema.Types.ObjectId,
         ref: 'Post'
     }]
-},{
+}, {
     timestamps: true,
     versionKey: false
 })
 
-userSchema.methods.toJOSN = function() {
-    const { password, id, ...user} = this.toObjet();
-    return { uid: id, ...user}
+userSchema.methods.toJSON = function () {
+    const { password, id, ...user } = this.toObject();
+    return { uid: id, ...user }
 }
 
 export default model('User', userSchema)
