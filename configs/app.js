@@ -9,7 +9,7 @@ import 'dotenv/config';
 import authRoutes from '../src/auth/auth.routes.js';
 import postRouters from '../src/posts/post.routes.js';
 import commentRoutes from '../src/comments/comment.routes.js';
-import requestLimit from '../middlewares/request-limit.js';
+
 import { handleErrors } from '../middlewares/handle-error.js';
 import recipeRoutes from '../src/recipes/recipe.routes.js';
 import path from 'path';
@@ -32,7 +32,7 @@ const middlewares = (app) => {
         crossOriginEmbedderPolicy: false
     }));
     app.use(morgan('dev'));
-    app.use(requestLimit);
+
     app.use('/uploads/posts', express.static(path.join(__dirname, '../assets/img/posts')));
 }
 
