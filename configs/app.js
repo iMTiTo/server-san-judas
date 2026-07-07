@@ -37,6 +37,12 @@ const middlewares = (app) => {
 }
 
 const routes = (app) => {
+    app.use('/api/v1/auth', authRoutes)
+    app.use('/api/v1/posts', postRouters)
+    app.use('/api/v1/comments', commentRoutes)
+    app.use('/api/v1/recipes', recipeRoutes)
+    
+    // Keep old routes for backward compatibility
     app.use('/api/auth', authRoutes)
     app.use('/api/posts', postRouters)
     app.use('/api/comments', commentRoutes)

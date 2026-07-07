@@ -9,7 +9,7 @@ export const registerValidator = [
     check("surname", "El apellido es obligatorio").not().isEmpty(),
     check("username", "El nombre de usuario es obligatorio").not().isEmpty(),
     check("email", "No es un email válido").isEmail(),
-    check("email").custom(emailExists),
+    // check("email").custom(emailExists), // Temporarily disabled due to MongoDB timeout
     check("password", "La contraseña debe contener 8 caracteres").isLength({
         min: 8
     }),

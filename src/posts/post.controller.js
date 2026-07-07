@@ -20,11 +20,11 @@ export const createPost = async (req, res) => {
         })
 
         const populatePost = await Post.findById(post._id)
-            .populate('author', 'name surname username porifilePicture')
+            .populate('author', 'name surname username profilePicture')
             .populate('comments')
 
         return res.status(201).json({
-            message: 'Publixcación exitosa',
+            message: 'Publicación exitosa',
             post: populatePost
         })
     } catch (error) {
@@ -37,6 +37,7 @@ export const createPost = async (req, res) => {
 
 export const getAllPosts = async (req, res) => {
     try {
+        console.log('getAllPosts called with query:', req.query);
         const { page = 1, limit = 8, search } = req.query
         const skip = (page - 1) * limit
 
@@ -58,6 +59,7 @@ export const getAllPosts = async (req, res) => {
             }
         }
 
+        console.log('Query:', query);
         const posts = await Post.find(query)
             .populate('author', 'name surname username profilePicture')
             .populate({
@@ -71,6 +73,7 @@ export const getAllPosts = async (req, res) => {
             .skip(skip)
             .limit(parseInt(limit))
 
+        console.log('Posts found:', posts.length);
         const totalPosts = await Post.countDocuments(query)
 
         return res.status(200).json({
@@ -84,6 +87,7 @@ export const getAllPosts = async (req, res) => {
             }
         })
     } catch (error) {
+        console.error('Error in getAllPosts:', error);
         return res.status(500).json({
             message: 'Error al obtener las publicaciones',
             error: error.message

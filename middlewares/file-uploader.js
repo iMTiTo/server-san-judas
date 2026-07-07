@@ -7,15 +7,15 @@ const CURRENT_DIR = dirname(fileURLToPath(import.meta.url))
 const MIMETYPES = ["image/jpg", "image/jpeg", "image/png"]
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 
-const createMulterConfing = (destinationPath, subFolder) => {
+const createMulterConfig = (destinationPath, subFolder) => {
     return multer({
         storage: multer.diskStorage({
             destination: join(CURRENT_DIR, destinationPath),
-            fileName: (req, file, cb) => {
-                const fileExtencion = extname(file.originalname)
-                const fileName = file.originalname.split(fileExtencion)[0]
+            filename: (req, file, cb) => {
+                const fileExtension = extname(file.originalname)
+                const fileName = file.originalname.split(fileExtension)[0]
                 const shortUuid = uuidv4().substring(0, 8)
-                const generatedName = `${fileName}-${shortUuid}-${fileExtencion}`
+                const generatedName = `${fileName}-${shortUuid}-${fileExtension}`
                 cb(null, generatedName)
             }
         }),
@@ -29,5 +29,5 @@ const createMulterConfing = (destinationPath, subFolder) => {
     })
 }
 
-export const uploadProfilePicture = createMulterConfing("../assets/img/profiles", "profiles")
-export const uploadPostImage = createMulterConfing("../assets/img/posts", "posts")
+export const uploadProfilePicture = createMulterConfig("../assets/img/profiles", "profiles")
+export const uploadPostImage = createMulterConfig("../assets/img/posts", "posts")
