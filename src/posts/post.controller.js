@@ -72,6 +72,7 @@ export const getAllPosts = async (req, res) => {
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(parseInt(limit))
+            .maxTimeMS(30000)
 
         console.log('Posts found:', posts.length);
         const totalPosts = await Post.countDocuments(query)

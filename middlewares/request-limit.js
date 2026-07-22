@@ -8,16 +8,7 @@ export const publicLimiter = rateLimit({
     message: `Demasiados intentos. Intenta más tarde`,
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
-        return req.headers['x-forwarded-for'] || req.ip || 'unknown';
-    },
-    skip: (req) => {
-        // Skip rate limiting if forwarded header is present but not properly configured
-        return false;
-    },
-    validate: {
-        trustProxy: true,
-    },
+    skipFailedRequests: true,
 });
 
 export const authtenticatedLimiter = rateLimit({
@@ -26,10 +17,6 @@ export const authtenticatedLimiter = rateLimit({
     message: `Demasiados intentos. Intenta más tarde`,
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
-        return `uid:${req.uid}` || req.headers['x-forwarded-for'] || req.ip || 'unknown';
-    },
-    validate: {
-        trustProxy: true,
-    },
+    keyGenerator: (req) => `uid:${req.uid}`,
+    skipFailedRequests: true,
 })

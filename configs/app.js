@@ -19,6 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const middlewares = (app) => {
+    app.set('trust proxy', 1);
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cors({
@@ -37,6 +38,15 @@ const middlewares = (app) => {
 }
 
 const routes = (app) => {
+    // Test endpoint to verify IP configuration
+    app.get('/ip', (req, res) => {
+        res.json({
+            ip: req.ip,
+            'x-forwarded-for': req.headers['x-forwarded-for'],
+            'forwarded': req.headers['forwarded']
+        });
+    });
+
     app.use('/api/v1/auth', authRoutes)
     app.use('/api/v1/posts', postRouters)
     app.use('/api/v1/comments', commentRoutes)
