@@ -4,13 +4,21 @@ import Comment from '../comments/comment.model.js';
 
 export const createPost = async (req, res) => {
     try {
-        const { title, content } = req.body
+        const { title, content, category, imageUrl } = req.body
         const authorId = req.uid
-        const image = req.file.filename
+        
+        // Use uploaded file if available, otherwise use imageUrl from body
+        let image = null
+        if (req.file && req.file.filename) {
+            image = req.file.filename
+        } else if (imageUrl) {
+            image = imageUrl
+        }
 
         const post = await Post.create({
             title,
             content,
+            category,
             image,
             author: authorId
         })

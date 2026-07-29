@@ -1,6 +1,6 @@
 import rateLimit from "express-rate-limit";
 const windowMs = 15 * 60 * 1000;
-const max = 100;
+const max = 1000;
 
 export const publicLimiter = rateLimit({
     windowMs,

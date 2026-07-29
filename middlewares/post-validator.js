@@ -10,12 +10,7 @@ export const createPostValidator = [
     check('title', 'El título es obligatorio').not().isEmpty(),
     check('title', 'El título no debe exceder 100 caracteres').isLength({ max: 100 }),
     check('content', 'El contenido es obligatorio').not().isEmpty(),
-    check('image').custom((value, { req }) => {
-        if (!req.file) {
-            throw new Error('La imagen es obligatoria');
-        }
-        return true;
-    }),
+    // Image is now optional - can be file upload or imageUrl in body
     validarCampos
 ];
 
