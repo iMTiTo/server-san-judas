@@ -14,6 +14,7 @@ export const dbConnection = async () => {
             retryWrites: true,
             retryReads: true,
             bufferCommands: false,
+            family: 4, // Use IPv4, skip trying IPv6
         })
 
         console.log("MongoDB | conectado a la base de datos")

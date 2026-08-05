@@ -4,7 +4,7 @@ import Comment from '../comments/comment.model.js';
 
 export const createPost = async (req, res) => {
     try {
-        const { title, content, category, imageUrl } = req.body
+        const { title, content, imageUrl } = req.body
         const authorId = req.uid
         
         // Use uploaded file if available, otherwise use imageUrl from body
@@ -18,7 +18,6 @@ export const createPost = async (req, res) => {
         const post = await Post.create({
             title,
             content,
-            category,
             image,
             author: authorId
         })
@@ -125,6 +124,86 @@ export const getPostById = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             message: 'Error al obtener la publicación',
+            error: error.message
+        })
+    }
+}
+
+export const updatePost = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { title, content, imageUrl } = req.body
+        const authorId = req.uid
+
+        const post = await Post.findById(id)
+        if (!post) {
+            return res.status(404).json({
+                message: 'Publicación no encontrada'
+            })
+        }
+
+        if (post.author.toString() !== authorId) {
+            return res.status(403).json({
+                message: 'No tienes permiso para editar esta publicación'
+            })
+        }
+
+        let image = post.image
+        if (req.file && req.file.filename) {
+            image = req.file.filename
+        } else if (imageUrl) {
+            image = imageUrl
+        }
+
+        const updatedPost = await Post.findByIdAndUpdate(
+            id,
+            { title, content, image },
+            { new: true }
+        )
+            .populate('author', 'name surname username profilePicture')
+            .populate('comments')
+
+        return res.status(200).json({
+            message: 'Publicación actualizada correctamente',
+            post: updatedPost
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error al actualizar la publicación',
+            error: error.message
+        })
+    }
+}
+
+export const deletePost = async (req, res) => {
+    try {
+        const { id } = req.params
+        const authorId = req.uid
+
+        const post = await Post.findById(id)
+        if (!post) {
+            return res.status(404).json({
+                message: 'Publicación no encontrada'
+            })
+        }
+
+        if (post.author.toString() !== authorId) {
+            return res.status(403).json({
+                message: 'No tienes permiso para eliminar esta publicación'
+            })
+        }
+
+        await Post.findByIdAndDelete(id)
+        await User.findByIdAndUpdate(authorId, {
+            $pull: { posts: id }
+        })
+
+        return res.status(200).json({
+            message: 'Publicación eliminada correctamente'
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error al eliminar la publicación',
             error: error.message
         })
     }

@@ -35,6 +35,7 @@ const middlewares = (app) => {
     app.use(morgan('dev'));
 
     app.use('/uploads/posts', express.static(path.join(__dirname, '../assets/img/posts')));
+    app.use('/uploads/profiles', express.static(path.join(__dirname, '../assets/img/profiles')));
 }
 
 const routes = (app) => {

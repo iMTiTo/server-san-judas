@@ -25,11 +25,11 @@ export const createComment = async (req, res) => {
         message: 'Comentario creado correctamente',
         comment: populatedComment,
     });
-}catch(error){
-    console.error(error);
-    return res.status(500).json({
-        message : 'Error al crear el comentario',
-        error: error.message,
-    })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: 'Error al crear el comentario',
+            error: error.message,
+        });
     }
 }

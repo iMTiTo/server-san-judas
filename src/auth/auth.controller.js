@@ -27,7 +27,7 @@ export const register = async (req, res) => {
         return res.status(200).json({
             message: "Usuario registrado correctamente",
             userDetails: {
-                user: newUser.username,
+                user: newUser,
                 email: newUser.email,
             },
         });
