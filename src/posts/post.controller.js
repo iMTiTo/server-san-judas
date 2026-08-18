@@ -6,13 +6,18 @@ export const createPost = async (req, res) => {
     try {
         const { title, content, imageUrl } = req.body
         const authorId = req.uid
-        
+
+        console.log('Creating post with data:', { title, content, imageUrl, authorId });
+        console.log('File uploaded:', req.file);
+
         // Use uploaded file if available, otherwise use imageUrl from body
         let image = null
         if (req.file && req.file.filename) {
             image = req.file.filename
+            console.log('Using uploaded file:', image);
         } else if (imageUrl) {
             image = imageUrl
+            console.log('Using imageUrl:', image);
         }
 
         const post = await Post.create({
@@ -22,6 +27,8 @@ export const createPost = async (req, res) => {
             author: authorId
         })
 
+        console.log('Post created with ID:', post._id);
+
         await User.findByIdAndUpdate(authorId, {
             $push: { posts: post._id }
         })
@@ -30,11 +37,14 @@ export const createPost = async (req, res) => {
             .populate('author', 'name surname username profilePicture')
             .populate('comments')
 
+        console.log('Populated post:', populatePost);
+
         return res.status(201).json({
             message: 'Publicación exitosa',
             post: populatePost
         })
     } catch (error) {
+        console.error('Error creating post:', error);
         return res.status(500).json({
             message: 'Error al guardar la publicación',
             error: error.message

@@ -36,6 +36,11 @@ const middlewares = (app) => {
 
     app.use('/uploads/posts', express.static(path.join(__dirname, '../assets/img/posts')));
     app.use('/uploads/profiles', express.static(path.join(__dirname, '../assets/img/profiles')));
+
+    // Log static file paths for debugging
+    console.log('Static file paths configured:');
+    console.log('Posts:', path.join(__dirname, '../assets/img/posts'));
+    console.log('Profiles:', path.join(__dirname, '../assets/img/profiles'));
 }
 
 const routes = (app) => {
