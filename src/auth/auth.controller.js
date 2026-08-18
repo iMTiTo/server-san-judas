@@ -8,6 +8,10 @@ export const register = async (req, res) => {
 
         console.log('Datos de registro:', data)
 
+        // Normalize email and username to lowercase
+        const normalizedEmail = data.email ? data.email.toLowerCase() : data.email;
+        const normalizedUsername = data.username ? data.username.toLowerCase() : data.username;
+
         let profilePicture = req.fileRelativePath || 'profiles/default-avatar.png'
         console.log('Encriptando contraseña...')
         const encryptedPassword = await hash(data.password)
@@ -17,19 +21,25 @@ export const register = async (req, res) => {
         const newUser = await User.create({
             name: data.name,
             surname: data.surname,
-            username: data.username,
-            email: data.email,
+            username: normalizedUsername,
+            email: normalizedEmail,
             password: encryptedPassword,
             profilePicture
         })
         console.log('Usuario creado:', newUser.username)
 
+        // Generate JWT token for immediate login
+        const token = await generarJWT(newUser.id, newUser.email)
+        console.log('JWT generated for new user')
+
         return res.status(200).json({
             message: "Usuario registrado correctamente",
             userDetails: {
-                user: newUser,
-                email: newUser.email,
-            },
+                username: newUser.username,
+                token: token,
+                profilePicture: newUser.profilePicture,
+                uid: newUser.id
+            }
         });
     } catch (error) {
         console.error('Error en registro:', error.message)
