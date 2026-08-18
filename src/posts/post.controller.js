@@ -92,22 +92,26 @@ export const getAllPosts = async (req, res) => {
             .maxTimeMS(30000)
 
         console.log('Posts found:', posts.length);
+        console.log('Posts data:', JSON.stringify(posts, null, 2));
+
         const totalPosts = await Post.countDocuments(query)
+        const totalPages = Math.ceil(totalPosts / limit)
 
         return res.status(200).json({
-            message: 'Publicaciones obtenidas exitosamente',
             posts,
             pagination: {
                 page: parseInt(page),
                 limit: parseInt(limit),
                 totalPosts,
-                pages: Math.ceil(totalPosts / limit)
+                totalPages,
+                hasNext: page < totalPages,
+                hasPrev: page > 1
             }
         })
     } catch (error) {
         console.error('Error in getAllPosts:', error);
         return res.status(500).json({
-            message: 'Error al obtener las publicaciones',
+            message: 'Error al obtener publicaciones',
             error: error.message
         })
     }
